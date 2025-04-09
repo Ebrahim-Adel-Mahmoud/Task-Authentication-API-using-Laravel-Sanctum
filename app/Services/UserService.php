@@ -20,4 +20,9 @@ class UserService
     {
         return $this->userRepository->findUser($email, $password);
     }
+
+    public function logout()
+    {
+        return $this->userRepository->logout();
+    }
 }

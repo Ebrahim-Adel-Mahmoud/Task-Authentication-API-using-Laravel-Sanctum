@@ -2,64 +2,70 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\PostRequest;
+use App\Http\Requests\UpdatePostRequest;
+use App\Services\PostService;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class PostController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    public function __construct(private PostService $postService){}
+
     public function index()
     {
-        //
+        $posts = $this->postService->all();
+        return $this->success($posts,'Retived all posts');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+    public function store(PostRequest $request)
     {
-        //
+        $post = $this->postService->create($request->validated());
+        return $this->success($post,'Post created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+       public function show(string $id)
     {
-        //
+        $post = $this->postService->find($id);
+        if(!$post){
+            return $this->error('Post not found');
+        }
+        return $this->success($post,'show one post by ID');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+
+
+
+    public function update( UpdatePostRequest $request, string $id)
     {
-        //
+       
+        $post = $this->postService->update($id, $request->validated());
+        if(!$post){
+            return $this->error('Post not found');
+        }
+        return $this->success($post,'Update Post Successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
-        //
+        $post = $this->postService->delete($id);
+        if(!$post){
+            return $this->error('Post not found');
+        }
+        return $this->success('','Deleted Post Successfully');
     }
 }

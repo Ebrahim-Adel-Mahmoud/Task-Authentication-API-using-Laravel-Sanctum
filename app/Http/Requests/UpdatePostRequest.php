@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostRequest extends FormRequest
+class UpdatePostRequest extends FormRequest
 {
 
     public function rules(): array
     {
         return [
-            'title' => 'required|min:3',
-            'content' => 'required|min:3',
+           'title' => 'nullable|min:3',
+            'content' => 'nullable|min:3',
         ];
     }
 }

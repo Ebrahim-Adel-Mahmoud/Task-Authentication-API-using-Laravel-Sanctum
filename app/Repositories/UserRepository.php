@@ -37,4 +37,12 @@ class UserRepository
        return $user;
    }
 
+   public function logout()
+   {
+        $user = auth()->user();
+
+        $user->tokens()->delete();
+
+        return $user;
+   }
 }
