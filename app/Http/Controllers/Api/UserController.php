@@ -14,7 +14,7 @@ class UserController extends BaseController
     public function index()
     {
         $users = $this->userService->all();
-        return $this->success($users);
+        return $this->success($users,'SuccessFully All Users');
     }
 
     public function register(RegisterRequest $request)
@@ -33,6 +33,15 @@ class UserController extends BaseController
 
        return $this->success($user, 'User logged in successfully');
 
+    }
+
+    public function logout()
+    {
+        $user = $this->userService->logout();
+        if(!$user) {
+            return $this->error('User not found');
+        }
+        return $this->success($user, 'User logged out successfully');
     }
 
 }
